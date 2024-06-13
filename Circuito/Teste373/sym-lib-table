@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "DS1233-05")(type "KiCad")(uri "D:/Projetos/KitZ80/Circuito/DS123305/2024-05-29_13-21-10.kicad_sym")(options "")(descr "DS1233-05"))
+  (lib (name "DQ_Library")(type "KiCad")(uri "C:/Users/Daniel/Documents/KiCad/6.0/symbols/DQ_Library.kicad_sym")(options "")(descr ""))
+)

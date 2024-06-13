@@ -1,0 +1,26 @@
+0000                             ; Teste de porta de saida com o 74HC373
+0000                             ; Assemblado com https://www.asm80.com/
+0000                          .CPU   Z80   
+0000                          .ORG   0   
+0000   0E 00                  LD   C,0   ; C = valor a escrever na porta
+0002                L1:          
+0002   79                     LD   A,C   
+0003   D3 61                  OUT   61h,A   ; escreve na porta
+0005   2F                     CPL      
+0006   D3 62                  OUT   62h,A   ; para conferir a decodificacao
+0008   0C                     INC   C   ; incrementa o valor
+0009                             ; aguarda um tempo antes da proxima escrita
+0009   21 00 00               LD   HL,0   
+000C                L2:          
+000C   2B                     DEC   HL   
+000D   7C                     LD   A,H   
+000E   B5                     OR   L   
+000F   C2 0C 00               JP   NZ,l2   
+0012                             ; escrever o proximo valor
+0012   C3 02 00               JP   l1   
+
+
+L1:                 0002 DEFINED AT LINE 9
+                    > USED AT LINE 25
+L2:                 000C DEFINED AT LINE 18
+                    > USED AT LINE 22

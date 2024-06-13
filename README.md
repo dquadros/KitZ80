@@ -10,5 +10,10 @@
  
  Em Circuito/TesteReset está o esquema do circuito montado para testar três opções para o Reset.
  
+ ## Teste do Uso do 74HC373 como Latch/Porta de Saída (13/06/24)
+ 
+ Em Circuito/Teste373 está o esquema do circuito montado para testar o usdo do 74HC373 como porta de saída.
+ 
+ Em Programas/TstBlink está o programa usado no teste.
   
  
