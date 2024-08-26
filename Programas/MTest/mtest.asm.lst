@@ -1,0 +1,78 @@
+0000                             ; Teste da RAM
+0000                             ; Assemblado com https://www.asm80.com/
+0000                          .CPU   Z80   
+0000                          .ORG   0   
+0000   0E 00                  LD   C,0   ; C = controle dos LEDs
+0002                             ; Escreve na memoria
+0002                L1:          
+0002   79                     LD   A,C   
+0003   EE 01                  XOR   1   ; pisca o primeiro LED
+0005   4F                     LD   C,A   
+0006   D3 61                  OUT   61h,A   
+0008   21 00 20               LD   HL,2000H   ; endereco a escrever
+000B   06 55                  LD   B,55H   ; B = valor a escrever
+000D                L2:          
+000D   70                     LD   (HL),B   ; escreve o valor
+000E   23                     INC   HL   ; avanca o ponteiro
+000F   7C                     LD   A,H   
+0010   FE 28                  CP   28H   
+0012   CA 2A 00               JP   Z,L3   ; desvia se chegou ao fim
+0015   78                     LD   A,B   ; gerador pseudo-aleatorio do Pitfall
+0016   CB 27                  SLA   A   
+0018   A8                     XOR   B   
+0019   CB 27                  SLA   A   
+001B   A8                     XOR   B   
+001C   CB 27                  SLA   A   
+001E   CB 27                  SLA   A   
+0020   A8                     XOR   B   
+0021   CB 27                  SLA   A   
+0023   78                     LD   A,B   
+0024   CB 17                  RL   A   
+0026   47                     LD   B,A   
+0027   C3 0D 00               JP   L2   
+002A                             ; Le e confere
+002A                L3:          
+002A   79                     LD   A,C   
+002B   EE 02                  XOR   2   ; pisca o segundo LED
+002D   4F                     LD   C,A   
+002E   D3 61                  OUT   61h,A   
+0030   06 55                  LD   B,55H   ; B = valor esperado
+0032   21 00 20               LD   HL,2000H   ; endereco a escrever
+0035                L4:          
+0035   7E                     LD   A,(HL)   
+0036   B8                     CP   B   
+0037   CA 40 00               JP   Z,L5   ; desvia se ok
+003A   79                     LD   A,C   
+003B   F6 04                  OR   4   ; acende o terceiro LED
+003D   4F                     LD   C,A   
+003E   D3 61                  OUT   61h,A   
+0040                L5:          
+0040   23                     INC   HL   ; avanca o ponteiro
+0041   7C                     LD   A,H   
+0042   FE 28                  CP   28H   
+0044   CA 02 00               JP   Z,L1   ; desvia se chegou ao fim
+0047   78                     LD   A,B   ; gerador pseudo-aleatorio do Pitfall
+0048   CB 27                  SLA   A   
+004A   A8                     XOR   B   
+004B   CB 27                  SLA   A   
+004D   A8                     XOR   B   
+004E   CB 27                  SLA   A   
+0050   CB 27                  SLA   A   
+0052   A8                     XOR   B   
+0053   CB 27                  SLA   A   
+0055   78                     LD   A,B   
+0056   CB 17                  RL   A   
+0058   47                     LD   B,A   
+0059   C3 35 00               JP   L4   
+
+
+L1:                 0002 DEFINED AT LINE 11
+                    > USED AT LINE 62
+L2:                 000D DEFINED AT LINE 19
+                    > USED AT LINE 38
+L3:                 002A DEFINED AT LINE 41
+                    > USED AT LINE 24
+L4:                 0035 DEFINED AT LINE 49
+                    > USED AT LINE 76
+L5:                 0040 DEFINED AT LINE 58
+                    > USED AT LINE 52
