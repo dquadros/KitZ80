@@ -1,0 +1,111 @@
+0000                             ; Teste completo do Display
+0000                             ; Assemblado com https://www.asm80.com/
+0000                          .CPU   Z80   
+0000                          .ORG   0   
+0000                             ; inicia contador
+0000   21 00 20               LD   HL,CONT   
+0003   0E 06                  LD   C,6   
+0005   AF                     XOR   A   
+0006                L1:          
+0006   77                     LD   (HL),A   
+0007   23                     INC   HL   
+0008   0D                     DEC   C   
+0009   C2 06 00               JP   NZ,L1   
+000C                             ; laco principal
+000C                MAIN:        
+000C                             ; Mostra contador atual
+000C   06 64                  LD   B,100   ; Repetir 100 vezes
+000E                L2:          
+000E   21 00 20               LD   HL,CONT   
+0011   0E 01                  LD   C,1   ; seleção do digito
+0013                L3:          
+0013   7E                     LD   A,(HL)   
+0014   C6 5F                  ADD   A,lsb(GCAR)   
+0016   5F                     LD   E,A   
+0017   3E 00                  LD   A,0   
+0019   CE 00                  ADC   A,msb(GCAR)   
+001B   57                     LD   D,A   
+001C   79                     LD   A,C   
+001D   D3 03                  OUT   03h,A   ; seleciona o digito
+001F   1A                     LD   A,(DE)   ; A <- GCAR[*CONT]
+0020   D3 01                  OUT   01h,A   ; seleciona os segmentos
+0022   11 80 00               LD   DE,080h   ; dá um tempinho
+0025                L4:          
+0025   1B                     DEC   DE   
+0026   7A                     LD   A,D   
+0027   B3                     OR   E   
+0028   C2 25 00               JP   NZ,L4   
+002B   23                     INC   HL   
+002C   79                     LD   A,C   
+002D   87                     ADD   A,A   ; desloca 1 bit para a esquerda
+002E   4F                     LD   C,A   
+002F   D6 40                  SUB   64   
+0031   C2 13 00               JP   NZ,L3   ; repete para os seis dígitos
+0034   05                     DEC   B   
+0035   C2 0E 00               JP   NZ,L2   ; repete 100 vezes
+0038                             ; Incrementa os contadores
+0038   21 03 20               LD   HL,CONT+3   
+003B   0E 04                  LD   C,4   
+003D                L5:          
+003D   34                     INC   (HL)   
+003E   7E                     LD   A,(HL)   
+003F   D6 0A                  SUB   10   
+0041   C2 4A 00               JP   NZ,L6   
+0044   77                     LD   (HL),A   ; zera o dígito
+0045   2B                     DEC   HL   
+0046   0D                     DEC   C   
+0047   C2 3D 00               JP   NZ,L5   
+004A                L6:          
+004A   21 05 20               LD   HL,CONT+5   
+004D   0E 02                  LD   C,2   
+004F                L7:          
+004F   34                     INC   (HL)   
+0050   7E                     LD   A,(HL)   
+0051   D6 0A                  SUB   10   
+0053   C2 5C 00               JP   NZ,L8   
+0056   77                     LD   (HL),A   ; zera o dígito
+0057   2B                     DEC   HL   
+0058   0D                     DEC   C   
+0059   C2 4F 00               JP   NZ,L7   
+005C                L8:          
+005C   C3 0C 00               JP   MAIN   ; repete tudo
+005F                             ; Ativação dos segmentos para cada valor
+005F                GCAR:        
+005F   C0                     DB   0C0h   
+0060   F9                     DB   0F9h   
+0061   A4                     DB   0A4h   
+0062   B0                     DB   0B0h   
+0063   99                     DB   099h   
+0064   92                     DB   092h   
+0065   82                     DB   082h   
+0066   F8                     DB   0F8h   
+0067   80                     DB   080h   
+0068   90                     DB   090h   
+2000                          .ORG   2000H   
+2000                CONT:     DS   6   
+
+
+L1:                 0006 DEFINED AT LINE 12
+                    > USED AT LINE 16
+MAIN:               000C DEFINED AT LINE 19
+                    > USED AT LINE 79
+L2:                 000E DEFINED AT LINE 22
+                    > USED AT LINE 52
+L3:                 0013 DEFINED AT LINE 25
+                    > USED AT LINE 49
+L4:                 0025 DEFINED AT LINE 38
+                    > USED AT LINE 42
+L5:                 003D DEFINED AT LINE 57
+                    > USED AT LINE 65
+L6:                 004A DEFINED AT LINE 66
+                    > USED AT LINE 61
+L7:                 004F DEFINED AT LINE 69
+                    > USED AT LINE 77
+L8:                 005C DEFINED AT LINE 78
+                    > USED AT LINE 73
+GCAR:               005F DEFINED AT LINE 82
+CONT:               2000 DEFINED AT LINE 97
+                    > USED AT LINE 9
+                    > USED AT LINE 23
+                    > USED AT LINE 55
+                    > USED AT LINE 67
